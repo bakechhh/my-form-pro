@@ -76,15 +76,16 @@ function updateReinvestmentCalculations() {
   const totalReinvestmentExpensesSum = reinvestmentPurchasePrice + totalReinvestmentExpenses;
   const reinvestmentFeeAmount = reinvestmentStandardPrice * reinvestmentFeeRate;
   const reinvestmentProfit = reinvestmentStandardPrice - totalReinvestmentExpensesSum - totalReinvestmentResaleExpenses - reinvestmentFeeAmount;
-  const reinvestmentProfitRate = (reinvestmentProfit / totalReinvestmentExpensesSum) * 100;
+  const reinvestmentProfitRate = (totalReinvestmentExpensesSum > 0) ? (reinvestmentProfit / totalReinvestmentExpensesSum) * 100 : 0;
 
+  document.getElementById('reinvestmentFeeAmount').value = reinvestmentFeeAmount.toFixed(2);
   document.getElementById('reinvestmentProfit').textContent = `再投資総利益: ${reinvestmentProfit.toFixed(2)} 円`;
   document.getElementById('reinvestmentProfitRate').textContent = `再投資利益率: ${reinvestmentProfitRate.toFixed(2)}%`;
 
   // 案件利益の計算と表示
   const profit = parseFloat(document.getElementById('profit').textContent.replace('利益: ', '').replace(' 円', '')) || 0;
   const totalProfit = profit + reinvestmentProfit;
-  const totalProfitRate = (totalProfit / (purchasePrice + totalReinvestmentExpensesSum)) * 100;
+  const totalProfitRate = (purchasePrice + totalReinvestmentExpensesSum > 0) ? (totalProfit / (purchasePrice + totalReinvestmentExpensesSum)) * 100 : 0;
 
   document.getElementById('totalProfit').textContent = `総利益: ${totalProfit.toFixed(2)} 円`;
   document.getElementById('totalProfitRate').textContent = `総利益率: ${totalProfitRate.toFixed(2)}%`;
