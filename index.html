@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>稟議・計算ツール</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>稟議・計算ツール</h1>
+  <form id="form">
+    <label for="productName">商品名:</label>
+    <input type="text" id="productName" name="productName" required><br><br>
+
+    <label for="purchasePrice">仕入れ価格:</label>
+    <input type="number" id="purchasePrice" name="purchasePrice" oninput="updateProfit()" required><br><br>
+
+    <label for="standardPrice">標準価格:</label>
+    <input type="number" id="standardPrice" name="standardPrice" oninput="calculateLimits()" required><br><br>
+
+    <label for="lowerLimit">下限価格:</label>
+    <input type="number" id="lowerLimit" name="lowerLimit" readonly><br><br>
+
+    <label for="upperLimit">上限価格:</label>
+    <input type="number" id="upperLimit" name="upperLimit" readonly><br><br>
+
+    <label for="expenses">仕入れ経費:</label>
+    <input type="number" id="expenses" name="expenses" oninput="updateProfit()"><br><br>
+
+    <fieldset>
+      <legend>転売時の手数料:</legend>
+      <label><input type="radio" name="fee" value="0.05" onchange="updateProfit()"> 5%</label><br>
+      <label><input type="radio" name="fee" value="0.08" onchange="updateProfit()"> 8%</label><br>
+      <label><input type="radio" name="fee" value="0.10" onchange="updateProfit()"> 10%</label><br>
+      <label><input type="radio" name="fee" value="0" onchange="updateProfit()" checked> 手数料なし</label>
+    </fieldset><br>
+
+    <label for="points">ポイント:</label>
+    <input type="number" id="points" name="points" oninput="updateProfit()"><br><br>
+
+    <label for="cashOut">ポイント現金化:</label>
+    <input type="checkbox" id="cashOut" name="cashOut" onchange="updateProfit()"><br><br>
+
+    <div id="profit" class="result"></div>
+    <div id="profitRate" class="result"></div>
+    <div id="profitWithPoints" class="result"></div><br>
+
+    <input type="button" value="稟議書を提出" onclick="submitForm()">
+  </form>
+  <script src="script.js"></script>
+</body>
+</html>
