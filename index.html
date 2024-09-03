@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>稟議書作成フォーム</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>稟議書作成フォーム</h1>
+    <form id="approvalForm">
+        <!-- フォームの内容はここに挿入します -->
+        <button type="button" onclick="submitForm()">稟議書を提出</button>
+    </form>
+    <script src="script.js"></script>
+    <script>
+        async function submitForm() {
+            const form = document.getElementById('approvalForm');
+            const formData = new FormData(form);
+
+            // フォームデータをオブジェクトに変換
+            const data = {
+                productName: formData.get('productName'),
+                purchasePrice: formData.get('purchasePrice'),
+                purchaseExpenses: Array.from(document.querySelectorAll('input[name="purchaseExpense"]')).map(input => input.value),
+                minimumPrice: formData.get('minimumPrice'),
+                standardPrice: formData.get('standardPrice'),
+                maximumPrice: formData.get('maximumPrice'),
+                resaleExpenses: Array.from(document.querySelectorAll('input[name="resaleExpense"]')).map(input => input.value),
+                sellingPrice: formData.get('sellingPrice'),
+                points: formData.get('points'),
+                cashoutPoints: document.getElementById('cashoutPoints').checked,
+                profit: document.getElementById('profit').textContent,
+                profitMargin: document.getElementById('profitMargin').textContent,
+            };
+
+            // Google Apps Script URL（デプロイ時に取得したURL）
+            const scriptUrl = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+
+            // Google Apps Scriptへデータを送信
+            await fetch(scriptUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            // 整形テキストを生成
+            const formattedText = `
+商品名: ${data.productName}
+仕入れ価格: ${data.purchasePrice}
+仕入れ経費: ${data.purchaseExpenses.join(', ')}
+下限価格: ${data.minimumPrice}
+標準価格: ${data.standardPrice}
+上限価格: ${data.maximumPrice}
+転売時経費: ${data.resaleExpenses.join(', ')}
+販売価格: ${data.sellingPrice}
+取得ポイント: ${data.points} (${data.cashoutPoints ? '現金化' : '未現金化'})
+利益: ${data.profit}
+利益率: ${data.profitMargin}
+`;
+
+            // クリップボードにコピー
+            navigator.clipboard.writeText(formattedText).then(() => {
+                alert('データがスプレッドシートに保存され、整形テキストがクリップボードにコピーされました。LINEに貼り付けて送信してください。');
+            }).catch(err => {
+                console.error('クリップボードへのコピーに失敗しました:', err);
+            });
+        }
+    </script>
+</body>
+</html>
