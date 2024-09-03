@@ -102,12 +102,8 @@ function toggleReinvestmentForm() {
   document.getElementById('reinvestmentForm').style.display = cashOut ? 'block' : 'none';
 }
 
-// フォームの提出
 function submitForm() {
-  // Google Apps ScriptのURLを指定
-  const scriptUrl = 'https://script.google.com/macros/s/AKfycbzRvW6Uhqkyk_fqtaEWNx_aYB1VdQmwiQvLV-ZS7aSblN152TfxSG9vpVI0cK3nddgL/exec';
-
-  // フォームデータの取得
+  const form = document.getElementById('form');
   const productName = document.getElementById('productName').value;
   const purchasePrice = document.getElementById('purchasePrice').value;
   const standardPrice = document.getElementById('standardPrice').value;
@@ -138,7 +134,7 @@ function submitForm() {
     totalProfitRate: totalProfitRate
   };
 
-  fetch(scriptUrl, {
+  fetch('https://script.google.com/macros/s/AKfycbzRvW6Uhqkyk_fqtaEWNx_aYB1VdQmwiQvLV-ZS7aSblN152TfxSG9vpVI0cK3nddgL/exec', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -155,7 +151,6 @@ function submitForm() {
   });
 }
 
-// 整形テキストを生成する関数
 function formatForClipboard(formData) {
   return `商品名: ${formData.productName}\n` +
          `仕入れ価格: ${formData.purchasePrice}\n` +
@@ -172,7 +167,6 @@ function formatForClipboard(formData) {
          `総利益率: ${formData.totalProfitRate}%\n`;
 }
 
-// クリップボードにコピーする関数
 function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => {
     console.log('クリップボードにコピーしました。');
