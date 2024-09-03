@@ -12,7 +12,7 @@ function updateCalculations() {
     // 手数料の取得
     const feeRadio = document.querySelector('input[name="fee"]:checked');
     const feePercentage = parseFloat(feeRadio ? feeRadio.value : '0') || 0;
-    
+
     // 手数料の計算
     const feeAmount = purchasePrice * feePercentage;
     document.getElementById('feeAmount').value = feeAmount.toFixed(2);
@@ -26,8 +26,8 @@ function updateCalculations() {
     const profitRate = (profit / (purchasePrice + totalPurchaseExpenses)) * 100;
 
     // ポイント利用の影響を計算
-    const totalProfit = cashOut ? profit + points : profit;
-    const totalProfitRate = cashOut ? ((totalProfit / (purchasePrice + totalPurchaseExpenses)) * 100) : profitRate;
+    const totalProfit = profit; // ポイントは利益計算には含まない
+    const totalProfitRate = profitRate;
 
     // 結果の表示
     document.getElementById('profit').textContent = `総利益: ${totalProfit.toFixed(2)} 円`;
