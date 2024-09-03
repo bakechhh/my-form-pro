@@ -1,47 +1,102 @@
-/* styles.css */
 body {
   font-family: Arial, sans-serif;
-  line-height: 1.6;
+  margin: 20px;
+  padding: 0;
+  background-color: #f4f4f4;
 }
 
 h1 {
   text-align: center;
+  color: #333;
+}
+
+form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: auto;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="radio"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+input[type="button"],
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+input[type="button"]:hover,
+button:hover {
+  background-color: #45a049;
 }
 
 fieldset {
-  border: 2px solid #ddd;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 legend {
   font-weight: bold;
 }
 
-label {
-  display: block;
-  margin: 5px 0;
+.result {
+  font-size: 16px;
+  margin: 10px 0;
 }
 
-input[type="number"], input[type="text"] {
-  width: calc(100% - 22px);
-  padding: 5px;
+#reinvestmentForm {
+  background-color: #e9f5e9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#reinvestmentForm h2 {
+  margin-top: 0;
+}
+
+.expense-item,
+.resale-item,
+.reinvestmentExpense-item,
+.reinvestmentResale-item {
   margin-bottom: 10px;
 }
 
 button {
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
-div#purchaseExpenses, div#resaleExpenses, div#reinvestmentPurchaseExpenses, div#reinvestmentResaleExpenses {
-  margin-bottom: 10px;
-}
-
-#reinvestmentForm {
-  border-top: 2px solid #ddd;
-  padding-top: 10px;
-}
-
-#totalProfit, #totalProfitRate, #reinvestmentProfit, #reinvestmentProfitRate {
-  font-weight: bold;
+@media (max-width: 600px) {
+  input[type="text"],
+  input[type="number"],
+  input[type="radio"] {
+    width: calc(100% - 20px);
+  }
 }
