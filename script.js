@@ -25,8 +25,8 @@ function updateCalculations() {
     const profit = standardPrice - purchasePrice - totalPurchaseExpenses - totalResaleExpenses - feeAmount;
     const profitRate = (profit / (purchasePrice + totalPurchaseExpenses)) * 100;
 
-    // 総利益の計算
-    const totalProfit = profit + (cashOut ? points : 0);
+    // ポイント利用の影響を計算
+    const totalProfit = cashOut ? profit + points : profit;
     const totalProfitRate = (totalProfit / (purchasePrice + totalPurchaseExpenses)) * 100;
 
     // 結果の表示
@@ -53,7 +53,7 @@ function updateReinvestmentCalculations() {
     const reinvestmentPurchaseExpenses = Array.from(document.querySelectorAll('#reinvestmentPurchaseExpenses .reinvestmentExpense')).map(e => parseFloat(e.value) || 0);
     const reinvestmentResaleExpenses = Array.from(document.querySelectorAll('#reinvestmentResaleExpenses .reinvestmentResaleExpense')).map(e => parseFloat(e.value) || 0);
 
-    // 手数料の取得
+    // 再投資手数料の取得
     const reinvestmentFeeRadio = document.querySelector('input[name="reinvestmentFee"]:checked');
     const reinvestmentFeePercentage = parseFloat(reinvestmentFeeRadio ? reinvestmentFeeRadio.value : '0') || 0;
 
@@ -78,7 +78,8 @@ function updateReinvestmentCalculations() {
     document.getElementById('reinvestmentProfitRate').textContent = `再投資利益率: ${isNaN(reinvestmentProfitRate) ? '0.00' : reinvestmentProfitRate.toFixed(2)}%`;
 
     // 案件利益の計算
-    const totalProfitAll = profit + reinvestmentProfit;
+    const totalProfit = parseFloat(document.getElementById('profit').textContent.replace(/総利益: /, '').replace(' 円', '')) || 0;
+    const totalProfitAll = totalProfit + reinvestmentProfit;
     const totalProfitRateAll = (totalProfitAll / (purchasePrice + totalPurchaseExpenses)) * 100;
 
     document.getElementById('totalProfitAll').textContent = `案件利益: ${totalProfitAll.toFixed(2)} 円`;
