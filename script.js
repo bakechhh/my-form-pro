@@ -27,7 +27,7 @@ function updateCalculations() {
 
     // ポイント利用の影響を計算
     const totalProfit = cashOut ? profit + points : profit;
-    const totalProfitRate = (totalProfit / (purchasePrice + totalPurchaseExpenses)) * 100;
+    const totalProfitRate = cashOut ? ((totalProfit / (purchasePrice + totalPurchaseExpenses)) * 100) : profitRate;
 
     // 結果の表示
     document.getElementById('profit').textContent = `総利益: ${totalProfit.toFixed(2)} 円`;
