@@ -1,3 +1,4 @@
+// script.js
 function updateProfit() {
   const purchasePrice = parseFloat(document.getElementById('purchasePrice').value) || 0;
   const standardPrice = parseFloat(document.getElementById('standardPrice').value) || 0;
@@ -15,10 +16,9 @@ function updateProfit() {
   const profit = standardPrice - totalExpenses - totalResaleExpenses - feeAmount;
   const profitRate = (profit / totalExpenses) * 100;
   
-  // Display profit details
   document.getElementById('profit').textContent = `利益: ${profit.toFixed(2)} 円`;
   document.getElementById('profitRate').textContent = `利益率: ${profitRate.toFixed(2)}%`;
-  
+
   if (cashOut) {
     updateReinvestmentProfit();
   } else {
@@ -33,20 +33,18 @@ function updateReinvestmentProfit() {
   const reinvestmentExpenses = Array.from(document.querySelectorAll('#reinvestmentPurchaseExpenses .reinvestmentExpense')).map(input => parseFloat(input.value) || 0);
   const reinvestmentResaleExpenses = Array.from(document.querySelectorAll('#reinvestmentResaleExpenses .reinvestmentResaleExpense')).map(input => parseFloat(input.value) || 0);
   const reinvestmentFeeRate = parseFloat(document.querySelector('input[name="reinvestmentFee"]:checked')?.value) || 0;
-  
+
   const totalReinvestmentExpenses = reinvestmentExpenses.reduce((sum, expense) => sum + expense, 0);
   const totalReinvestmentResaleExpenses = reinvestmentResaleExpenses.reduce((sum, expense) => sum + expense, 0);
-  
+
   const totalReinvestmentExpensesSum = reinvestmentPurchasePrice + totalReinvestmentExpenses;
   const reinvestmentFeeAmount = reinvestmentStandardPrice * reinvestmentFeeRate;
   const reinvestmentProfit = reinvestmentStandardPrice - totalReinvestmentExpensesSum - totalReinvestmentResaleExpenses - reinvestmentFeeAmount;
   const reinvestmentProfitRate = (reinvestmentProfit / totalReinvestmentExpensesSum) * 100;
 
-  // Display reinvestment profit details
   document.getElementById('reinvestmentProfit').textContent = `再投資総利益: ${reinvestmentProfit.toFixed(2)} 円`;
   document.getElementById('reinvestmentProfitRate').textContent = `再投資利益率: ${reinvestmentProfitRate.toFixed(2)}%`;
 
-  // Calculate total profit including reinvestment
   const totalProfit = parseFloat(document.getElementById('profit').textContent.replace('利益: ', '').replace(' 円', '')) || 0;
   const updatedTotalProfit = totalProfit + reinvestmentProfit;
   const updatedTotalProfitRate = (updatedTotalProfit / (totalExpenses + totalReinvestmentExpensesSum)) * 100;
