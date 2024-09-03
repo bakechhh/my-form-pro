@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>稟議書作成フォーム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>稟議書作成フォーム</h1>
+    <form id="form">
+        <div>
+            <label for="productName">商品名:</label>
+            <input type="text" id="productName" name="productName" required>
+        </div>
+        <div>
+            <label for="purchasePrice">仕入れ価格:</label>
+            <input type="number" id="purchasePrice" name="purchasePrice" oninput="updateProfit()" required>
+        </div>
+        <div id="purchaseExpenses">
+            <label>仕入れ時経費:</label>
+            <button type="button" onclick="addExpense()">+経費を追加</button>
+        </div>
+        <div>
+            <label for="standardPrice">標準価格:</label>
+            <input type="number" id="standardPrice" name="standardPrice" oninput="updateProfit()" required>
+        </div>
+        <div>
+            <label>手数料:</label>
+            <label><input type="radio" name="fee" value="0.05" onclick="updateProfit()"> 5%</label>
+            <label><input type="radio" name="fee" value="0.08" onclick="updateProfit()"> 8%</label>
+            <label><input type="radio" name="fee" value="0.10" onclick="updateProfit()"> 10%</label>
+            <input type="hidden" id="feeAmount" name="feeAmount" value="0">
+        </div>
+        <div>
+            <label>転売時経費:</label>
+            <button type="button" onclick="addResaleExpense()">+経費を追加</button>
+        </div>
+        <div>
+            <label for="points">ポイント:</label>
+            <input type="number" id="points" name="points" oninput="updateProfit()">
+        </div>
+        <div>
+            <label><input type="checkbox" id="cashOut" onclick="toggleReinvestmentForm()"> ポイントを現金化する</label>
+        </div>
+        <div id="reinvestmentForm" style="display: none;">
+            <h3>再投資情報</h3>
+            <div>
+                <label for="reinvestmentPurchasePrice">再投資仕入れ価格:</label>
+                <input type="number" id="reinvestmentPurchasePrice" name="reinvestmentPurchasePrice" oninput="updateReinvestmentProfit()">
+            </div>
+            <div id="reinvestmentPurchaseExpenses">
+                <label>再投資経費:</label>
+                <button type="button" onclick="addReinvestmentExpense()">+経費を追加</button>
+            </div>
+            <div>
+                <label for="reinvestmentStandardPrice">再投資標準価格:</label>
+                <input type="number" id="reinvestmentStandardPrice" name="reinvestmentStandardPrice" oninput="updateReinvestmentProfit()">
+            </div>
+            <div>
+                <label>再投資転売時経費:</label>
+                <button type="button" onclick="addReinvestmentResaleExpense()">+経費を追加</button>
+            </div>
+            <div>
+                <label>再投資手数料:</label>
+                <label><input type="radio" name="reinvestmentFee" value="0.05" onclick="updateReinvestmentProfit()"> 5%</label>
+                <label><input type="radio" name="reinvestmentFee" value="0.08" onclick="updateReinvestmentProfit()"> 8%</label>
+                <label><input type="radio" name="reinvestmentFee" value="0.10" onclick="updateReinvestmentProfit()"> 10%</label>
+                <input type="hidden" id="reinvestmentFeeAmount" name="reinvestmentFeeAmount" value="0">
+            </div>
+        </div>
+        <div id="profit">利益: </div>
+        <div id="profitRate">利益率: </div>
+        <div id="reinvestmentForm" style="display: none;">
+            <div id="reinvestmentDetails"></div>
+            <div id="totalProfit">総利益: </div>
+            <div id="totalProfitRate">総利益率: </div>
+        </div>
+        <button type="button" onclick="submitForm()">稟議書を提出</button>
+    </form>
+    <script src="script.js"></script>
+</body>
+</html>
