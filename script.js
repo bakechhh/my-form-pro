@@ -1,43 +1,3 @@
-// 仕入れ経費を追加する関数
-function addExpense() {
-  const expenseDiv = document.getElementById('purchaseExpenses');
-  const newExpense = document.createElement('div');
-  newExpense.className = 'expense-item';
-  newExpense.innerHTML = '<input type="number" class="expense" oninput="updateCalculations()" placeholder="経費">';
-  expenseDiv.appendChild(newExpense);
-  updateCalculations();
-}
-
-// 転売時経費を追加する関数
-function addResaleExpense() {
-  const resaleExpenseDiv = document.getElementById('resaleExpenses');
-  const newResaleExpense = document.createElement('div');
-  newResaleExpense.className = 'resale-item';
-  newResaleExpense.innerHTML = '<input type="number" class="resaleExpense" oninput="updateCalculations()" placeholder="転売経費">';
-  resaleExpenseDiv.appendChild(newResaleExpense);
-  updateCalculations();
-}
-
-// 再投資仕入れ経費を追加する関数
-function addReinvestmentExpense() {
-  const reinvestmentExpenseDiv = document.getElementById('reinvestmentPurchaseExpenses');
-  const newReinvestmentExpense = document.createElement('div');
-  newReinvestmentExpense.className = 'reinvestmentExpense-item';
-  newReinvestmentExpense.innerHTML = '<input type="number" class="reinvestmentExpense" oninput="updateReinvestmentCalculations()" placeholder="経費">';
-  reinvestmentExpenseDiv.appendChild(newReinvestmentExpense);
-  updateReinvestmentCalculations();
-}
-
-// 再投資転売時経費を追加する関数
-function addReinvestmentResaleExpense() {
-  const reinvestmentResaleExpenseDiv = document.getElementById('reinvestmentResaleExpenses');
-  const newReinvestmentResaleExpense = document.createElement('div');
-  newReinvestmentResaleExpense.className = 'reinvestmentResale-item';
-  newReinvestmentResaleExpense.innerHTML = '<input type="number" class="reinvestmentResaleExpense" oninput="updateReinvestmentCalculations()" placeholder="転売経費">';
-  reinvestmentResaleExpenseDiv.appendChild(newReinvestmentResaleExpense);
-  updateReinvestmentCalculations();
-}
-
 // 計算を更新する関数
 function updateCalculations() {
   const purchasePrice = parseFloat(document.getElementById('purchasePrice').value) || 0;
@@ -76,16 +36,19 @@ function updateReinvestmentCalculations() {
   const totalReinvestmentExpensesSum = reinvestmentPurchasePrice + totalReinvestmentExpenses;
   const reinvestmentFeeAmount = reinvestmentStandardPrice * reinvestmentFeeRate;
   const reinvestmentProfit = reinvestmentStandardPrice - totalReinvestmentExpensesSum - totalReinvestmentResaleExpenses - reinvestmentFeeAmount;
-  const reinvestmentProfitRate = (totalReinvestmentExpensesSum > 0) ? (reinvestmentProfit / totalReinvestmentExpensesSum) * 100 : 0;
+  const reinvestmentProfitRate = (reinvestmentProfit / totalReinvestmentExpensesSum) * 100;
 
-  document.getElementById('reinvestmentFeeAmount').value = reinvestmentFeeAmount.toFixed(2);
   document.getElementById('reinvestmentProfit').textContent = `再投資総利益: ${reinvestmentProfit.toFixed(2)} 円`;
-  document.getElementById('reinvestmentProfitRate').textContent = `再投資利益率: ${reinvestmentProfitRate.toFixed(2)}%`;
+  document.getElementById('reinvestmentProfitRate').textContent = `再投資利益率: ${isNaN(reinvestmentProfitRate) ? 'NaN%' : reinvestmentProfitRate.toFixed(2) + '%'}`;
+
+  // 再投資の上限と下限価格
+  document.getElementById('reinvestmentLowerLimit').value = (reinvestmentStandardPrice * 0.9).toFixed(2); // 下限価格
+  document.getElementById('reinvestmentUpperLimit').value = (reinvestmentStandardPrice * 1.1).toFixed(2); // 上限価格
 
   // 案件利益の計算と表示
   const profit = parseFloat(document.getElementById('profit').textContent.replace('利益: ', '').replace(' 円', '')) || 0;
   const totalProfit = profit + reinvestmentProfit;
-  const totalProfitRate = (purchasePrice + totalReinvestmentExpensesSum > 0) ? (totalProfit / (purchasePrice + totalReinvestmentExpensesSum)) * 100 : 0;
+  const totalProfitRate = (totalProfit / (purchasePrice + totalReinvestmentExpensesSum)) * 100;
 
   document.getElementById('totalProfit').textContent = `総利益: ${totalProfit.toFixed(2)} 円`;
   document.getElementById('totalProfitRate').textContent = `総利益率: ${totalProfitRate.toFixed(2)}%`;
